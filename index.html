@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<!--
+================================================================
+ こだいら鈴木祭 運営ガイド
+
+ 【文言を直すときは】
+ ・「はじめに」タブの文章 …… このファイルの <section ... id="v-intro"> の中
+ ・タイムライン／持ち場／聞かれたら／企画・出店／要確認 の中身 ……
+     下の <script> 内、「ここから下が文言データ」と書いた部分
+     （OPS・STAGE・POSTS・RULES・BOOTHS・SHOPS・TODO）
+ ・文字は " " や [ ] の中だけを書き換え、記号（" , [ ] { }）は消さない
+ ・保存（Commit）すると、1〜2分でNetlifyのページに反映される
+================================================================
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>鈴木祭 運営ガイド</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap">
+<style>
+/* Layout: 祭りの紺地に提灯のオレンジと朱。上部固定のタブで6つの画面を切り替える、スマホ片手で読む運営手帳 */
+:root {
+  --bg: #eef0f8;
+  --surface: #ffffff;
+  --surface-2: #e4e7f4;
+  --ink: #151a3d;
+  --muted: #555c82;
+  --line: #d3d7ea;
+  --navy: #232a8c;
+  --navy-ink: #ffffff;
+  --orange: #e8801f;
+  --vermilion: #d9482b;
+  --yellow: #f6d54a;
+  --good: #2e7d4f;
+  --warn-bg: #fff4d6;
+  --warn-ink: #7a5300;
+  --now-bg: #ffe9d2;
+  --font-display: "Dela Gothic One", "Hiragino Sans", "Noto Sans JP", sans-serif;
+  --font-body: "Zen Maru Gothic", "Hiragino Maru Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1230; --surface: #191d45; --surface-2: #232859; --ink: #eef0ff; --muted: #a9aed6;
+    --line: #30366e; --navy: #2b33a6; --navy-ink: #ffffff; --orange: #f39a45; --vermilion: #ff7457;
+    --yellow: #f6d54a; --good: #6cc895; --warn-bg: #3a3014; --warn-ink: #f3d38a; --now-bg: #4a2f1a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1230; --surface: #191d45; --surface-2: #232859; --ink: #eef0ff; --muted: #a9aed6;
+  --line: #30366e; --navy: #2b33a6; --navy-ink: #ffffff; --orange: #f39a45; --vermilion: #ff7457;
+  --yellow: #f6d54a; --good: #6cc895; --warn-bg: #3a3014; --warn-ink: #f3d38a; --now-bg: #4a2f1a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-weight: 500; font-size: 15px; line-height: 1.7;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--navy); }
+.gutter { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 760px; margin: 0 auto; }
+
+/* ヘッダー */
+.hero { background: var(--navy); color: var(--navy-ink); border-bottom: 5px solid var(--orange); }
+.hero .wrap { padding-block: 22px 18px; display: grid; gap: 6px; }
+.hero .eyebrow { font-size: 12px; letter-spacing: .14em; opacity: .85; }
+.hero h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(28px, 7vw, 40px); line-height: 1.15; margin: 0; text-wrap: balance; }
+.hero h1 span { color: var(--yellow); }
+.hero .dates { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; font-size: 13px; }
+.hero .dates b { font-family: var(--font-display); font-weight: 400; }
+.lantern { display: inline-flex; align-items: center; gap: 6px; padding: 3px 12px; border-radius: 999px; color: #fff; }
+.lantern.d1 { background: var(--vermilion); }
+.lantern.d2 { background: var(--orange); }
+.hero .place { font-size: 13px; opacity: .9; }
+
+/* タブ */
+nav.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--surface); border-bottom: 1px solid var(--line); }
+nav.tabs .wrap { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-block: 8px; }
+nav.tabs .wrap::-webkit-scrollbar { display: none; }
+nav.tabs a { flex: none; text-decoration: none; color: var(--muted); font-weight: 700; font-size: 14px; padding: 6px 12px; border-radius: 999px; }
+nav.tabs a[aria-current="page"] { background: var(--navy); color: var(--navy-ink); }
+nav.tabs a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+
+main .wrap { padding-block: 18px 48px; display: grid; gap: 18px; }
+section.view { display: grid; gap: 16px; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; line-height: 1.3; margin: 0; color: var(--navy); text-wrap: balance; }
+:root:not([data-theme="light"]) h2 { }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) h2 { color: var(--ink); } }
+:root[data-theme="dark"] h2 { color: var(--ink); }
+h3 { font-size: 17px; font-weight: 900; margin: 0; line-height: 1.4; }
+p { margin: 0; }
+.lead { color: var(--muted); font-size: 14px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; gap: 10px; min-width: 0; }
+ul.list { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 12px; }
+.kv dt { color: var(--muted); font-size: 13px; font-weight: 700; }
+.kv dd { margin: 0; min-width: 0; }
+.tag { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 9px; border-radius: 999px; background: var(--surface-2); color: var(--muted); white-space: nowrap; }
+.tag.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.tag.navy { background: var(--navy); color: var(--navy-ink); }
+.note { background: var(--warn-bg); color: var(--warn-ink); border-radius: 10px; padding: 10px 12px; font-size: 14px; }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+
+/* 日付切り替え */
+.daybar { display: flex; gap: 8px; flex-wrap: wrap; }
+.daybar button { font: inherit; font-weight: 700; font-size: 14px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+.daybar button[aria-pressed="true"] { background: var(--navy); color: var(--navy-ink); border-color: var(--navy); }
+
+/* タイムライン */
+.tl { list-style: none; margin: 0; padding: 0; display: grid; }
+.tl li { display: grid; grid-template-columns: 6.2em 1fr; gap: 10px; padding: 9px 0; border-top: 1px dashed var(--line); }
+.tl li:first-child { border-top: 0; }
+.tl time { font-variant-numeric: tabular-nums; font-weight: 900; color: var(--navy); font-size: 14px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tl time { color: var(--yellow); } }
+:root[data-theme="dark"] .tl time { color: var(--yellow); }
+.tl .what { min-width: 0; }
+.tl .who { color: var(--muted); font-size: 13px; }
+.tl li.now { background: var(--now-bg); border-radius: 10px; padding-left: 8px; padding-right: 8px; border-top-color: transparent; }
+.tl li.now time::after { content: "いまここ"; display: block; font-size: 11px; color: var(--vermilion); }
+
+/* 持ち場 */
+.search { display: grid; gap: 6px; }
+.search label { font-weight: 700; font-size: 14px; }
+.search input { font: inherit; font-size: 16px; padding: 10px 14px; border: 2px solid var(--line); border-radius: 12px; background: var(--surface); color: var(--ink); width: 100%; }
+.search .hint { color: var(--muted); font-size: 12px; }
+.posts { display: grid; gap: 12px; }
+.post { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; min-width: 0; }
+.post > summary { list-style: none; cursor: pointer; padding: 14px 16px; display: grid; gap: 4px; }
+.post > summary::-webkit-details-marker { display: none; }
+.post > summary .row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.post > summary .chev { color: var(--muted); font-size: 13px; flex: none; }
+.post[open] > summary .chev::before { content: "閉じる"; }
+.post:not([open]) > summary .chev::before { content: "開く"; }
+.post .leader { font-size: 13px; color: var(--muted); }
+.post .body { padding: 0 16px 16px; display: grid; gap: 12px; }
+.slots { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.slots li { display: grid; grid-template-columns: 6.6em 1fr; gap: 10px; background: var(--surface-2); border-radius: 10px; padding: 8px 10px; }
+.slots .t { font-variant-numeric: tabular-nums; font-weight: 900; font-size: 13px; }
+.slots .p { font-weight: 700; }
+.slots .d { font-size: 13px; color: var(--muted); }
+.slots li.empty .p { color: var(--muted); font-weight: 500; }
+mark { background: var(--yellow); color: #151a3d; border-radius: 3px; padding: 0 2px; }
+.post.hide { display: none; }
+.empty-search { color: var(--muted); font-size: 14px; }
+
+/* チェックリスト */
+.todo { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.todo li { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.todo .who { color: var(--muted); font-size: 13px; }
+
+footer { color: var(--muted); font-size: 12px; text-align: center; padding-block: 0 32px; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<header class="hero gutter">
+  <div class="wrap">
+    <div class="eyebrow">スタッフ・ボランティア用</div>
+    <h1>こだいら<span>鈴木祭</span>2026<br>運営ガイド</h1>
+    <div class="dates">
+      <span class="lantern d1"><b>10/31</b>土 ヨイ宵祭 16:00–20:30</span>
+      <span class="lantern d2"><b>11/1</b>日 本気祭 11:00–17:00</span>
+    </div>
+    <div class="place">会場：けやきヶ丘公園（小平市花小金井南町1-4-19／花小金井駅南口から徒歩10分）　雨天開催・荒天中止</div>
+  </div>
+</header>
+
+<nav class="tabs gutter" aria-label="画面の切り替え">
+  <div class="wrap">
+    <a href="#intro">はじめに</a>
+    <a href="#timeline">タイムライン</a>
+    <a href="#posts">持ち場</a>
+    <a href="#rules">聞かれたら</a>
+    <a href="#booths">企画・出店</a>
+    <a href="#open">要確認</a>
+  </div>
+</nav>
+
+<main class="gutter">
+  <div class="wrap">
+
+    <!-- はじめに -->
+    <section class="view" id="v-intro" data-view="intro">
+      <h2>ようこそ、鈴木祭へ</h2>
+      <p>日本で2番目に多い名字「鈴木」。小平市鈴木町は、その名字が地名になっている数少ない場所です。地名・文化・名字をめぐって、鈴木さんも鈴木さんでない人も集まる地域のお祭りです。</p>
+
+      <div class="panel">
+        <h3>いちばん大事なこと：鈴木になりきる</h3>
+        <p>鈴木バッジや鈴木グッズを付けている人を見かけたら、「鈴木さんですか？」と声をかけてみてください。鈴木さんであることを喜んでもらえるような、鈴木肯定感を高める声かけが、鈴木祭ならではのおもてなしです。ステージからも呼びかけます。</p>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <h3>困ったら</h3>
+          <dl class="kv">
+            <dt>まず</dt><dd>本部（駅方面の入口）の<b>関谷さん</b>。全体と、どの出店者がどこにいるかを把握しています</dd>
+            <dt>全体判断</dt><dd><b>出口さん</b>（代表）。ただし当日はLINE対応で持ち場にいないことが多いので、まず本部へ</dd>
+            <dt>けが・体調</dt><dd><b>佐藤（まきこ）さん</b>（看護師）。救護室はありません。必要なら救急車</dd>
+          </dl>
+        </div>
+        <div class="panel">
+          <h3>スタッフの目印</h3>
+          <p>法被（黒15着・青10着）と腕章。受け取り方法は当日本部で確認してください。</p>
+          <h3>持ち物のおすすめ</h3>
+          <ul class="list">
+            <li>スマホ（このページとLINEを見る）</li>
+            <li>飲み物・防寒着（10/31は夜まで）</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>ボランティアの方へ</h3>
+        <p>当日お願いしたい仕事は、大きく2種類です。どちらか、または両方を組み合わせて3か所くらい担当してもらうイメージです。</p>
+        <div class="grid2">
+          <div>
+            <p><b>おもしろい系</b></p>
+            <ul class="list"><li>バーカウンター補助</li><li>受付補助</li><li>鈴木くじの補助</li></ul>
+          </div>
+          <div>
+            <p><b>立っておく系</b></p>
+            <ul class="list"><li>自転車を止めさせない（駅の駐輪場へ案内）</li><li>トイレの案内</li><li>巡回・路上喫煙の見回り</li></ul>
+          </div>
+        </div>
+        <p class="lead">いまのシフト案での配置は「持ち場」タブで、名前を入れると探せます。</p>
+      </div>
+    </section>
+
+    <!-- タイムライン -->
+    <section class="view" id="v-timeline" data-view="timeline" hidden>
+      <h2>タイムライン</h2>
+      <div class="daybar" role="group" aria-label="日付">
+        <button type="button" data-day="pre">10/30 前日</button>
+        <button type="button" data-day="d1">10/31 ヨイ宵祭</button>
+        <button type="button" data-day="d2">11/1 本気祭</button>
+      </div>
+      <div class="panel" id="tl-ops"></div>
+      <div class="panel" id="tl-stage"></div>
+    </section>
+
+    <!-- 持ち場 -->
+    <section class="view" id="v-posts" data-view="posts" hidden>
+      <h2>持ち場</h2>
+      <div class="daybar" role="group" aria-label="日付">
+        <button type="button" data-day="d1">10/31 ヨイ宵祭</button>
+        <button type="button" data-day="d2">11/1 本気祭</button>
+      </div>
+      <div class="search">
+        <label for="q">名前で探す</label>
+        <input id="q" type="search" placeholder="例）ふかわ、関谷、林" autocomplete="off">
+        <span class="hint">ひらがな・漢字どちらでも探せます。（ ）付きの名前はシフト表で未確定の人です。</span>
+      </div>
+      <div class="posts" id="post-list"></div>
+      <p class="empty-search" id="no-hit" hidden>その名前の持ち場は見つかりませんでした。表記を変えて試してください。</p>
+    </section>
+
+    <!-- 聞かれたら -->
+    <section class="view" id="v-rules" data-view="rules" hidden>
+      <h2>来場者に聞かれたら</h2>
+      <p class="lead">会場ルールと、よく聞かれそうなことの答え方です。</p>
+      <div class="posts" id="rule-list"></div>
+    </section>
+
+    <!-- 企画・出店 -->
+    <section class="view" id="v-booths" data-view="booths" hidden>
+      <h2>企画・出店</h2>
+      <div class="panel">
+        <h3>料金</h3>
+        <p>フード・ドリンク・鈴木くじ、すべて<b>500円</b>。PayPayも使えます（BASE's PayPay2）。</p>
+      </div>
+      <div class="posts" id="booth-list"></div>
+      <div class="panel">
+        <h3>会場のつくり（マップより）</h3>
+        <ul class="list">
+          <li>本部：北側、花小金井駅方面の入口</li>
+          <li>CRAFTゾーン・FOODゾーン・VIPラウンジ（来賓席）</li>
+          <li>スズキーランド：鈴木くじ／鈴木クイズラリー／1日鈴木さん体験／記念フォトブース／ニッポン鈴木濃度ダーツ／鈴木遺跡・鈴木ばやし紹介</li>
+          <li>SUZUKI FUJI ステージ</li>
+          <li>公園内にトイレはありません</li>
+        </ul>
+      </div>
+      <div class="panel" id="shops"></div>
+    </section>
+
+    <!-- 要確認 -->
+    <section class="view" id="v-open" data-view="open" hidden>
+      <h2>要確認・未決事項</h2>
+      <p class="lead">資料どうしで食い違っている点や、まだ決まっていない点です。実行委員で確認できたら、このページも更新します。</p>
+      <ul class="todo" id="todo-list"></ul>
+    </section>
+
+  </div>
+</main>
+<footer class="gutter"><div class="wrap">こだいら鈴木祭実行委員会　スタッフシフト表・タスクリスト・10/25打ち合わせメモ・LINE・公式告知をもとに作成（10/29時点）</div></footer>
+
+<script>
+(function () {
+  // ================================================================
+  // ここから下が文言データ（" " の中を書き換えてOK）
+  // ================================================================
+  var DAY_LABEL = { pre: "10/30（金）前日", d1: "10/31（土）ヨイ宵祭", d2: "11/1（日）本気祭" };
+
+  var OPS = {
+    pre: [
+      ["夕方", "グッズ一式（のぼり・法被・手ぬぐい・バッジ・ポストカードなど、段ボール4〜5箱）を磯田さん宅からBASESへ", "ツルタさん（車）"],
+      ["日中〜", "BASESでVIP返礼品のラッピング、白丸コースター（500枚）とドリンクチケット（1,000枚）のスタンプ押し、鈴木くじのカット", "ツルタさん、関谷さん（15:30まで）ほか。BASESのWSスペースは15:30–17:00以外なら使用可"],
+      ["夜", "BASESで積み込み（カウンター・資材一式）。出口カーは観光協会・ココパレからの借用品を積む", "出口さんほか"]
+    ],
+    d1: [
+      ["10:00", "ハイエースがBASESを出発", "運搬"],
+      ["10:30", "公園で荷下ろし → 細谷さん宅へ", "運搬"],
+      ["11:00", "細谷さん宅で机（約20）・椅子（約50）を積み込み", "4人"],
+      ["11:40", "公園で荷下ろし → 車は近くの駐車場へ", "運搬"],
+      ["12:00", "設営", ""],
+      ["14:00", "全員集合。テント・机・椅子・横断幕・配線の設営、出店者の搬入誘導", "全員"],
+      ["16:00", "ヨイ宵祭スタート", ""],
+      ["20:30", "終了。片付け・残置確認（〜22:00）、夜間に残す物の養生とゴミ回収", "全員"],
+      ["21:00", "現地に残さない物をハイエースに積んで帰る", "運搬"]
+    ],
+    d2: [
+      ["08:00", "ハイエースが公園へ", "運搬"],
+      ["08:30", "全員集合・朝礼。荷下ろし、テント・机・椅子・看板の設置", "全員"],
+      ["10:15", "よさこい出演者の自転車受付（〜10:45、南中体育館の臨時駐輪）", "ふかわさんチーム"],
+      ["11:00", "本気祭スタート", ""],
+      ["17:00", "終了。全テント解体・公園清掃・原状回復（〜19:00）", "全員"],
+      ["18:00", "テーブル・椅子を清掃してハイエースへ", "運搬"],
+      ["18:30", "細谷さん宅へ机・椅子を返却", "4人"],
+      ["19:15", "公園に戻ってBASES行きの荷物を積む", "運搬"]
+    ]
+  };
+
+  var STAGE = {
+    d1: [
+      ["16:00", "16:10", "オープニングセレモニー", "鈴木祭のはじまり"],
+      ["16:15", "16:40", "鈴木祭オープニングトーク", "和歌山・栃木からのゲストトーク"],
+      ["16:45", "17:30", "SUZUKI DJ NIGHT", "DJによるスペシャルタイム"],
+      ["17:40", "18:05", "鈴木伝統芸能および輪踊り", "鈴木浄瑠璃・鈴木騒ぎ・鈴木音頭"],
+      ["18:20", "18:50", "能の世界を体験〜熊野から鈴木へ〜", "宝生流能楽師 小林晋也さん"],
+      ["19:00", "19:30", "インドと民謡、蓄音機", "音楽でつながるステージ"],
+      ["19:30", "20:00", "フィナーレ", "SUZUKI ROUND DANCE（ひもでまわる）"],
+      ["20:00", "20:30", "余韻タイム", "20:30終了"]
+    ],
+    d2: [
+      ["11:00", "11:10", "オープニングセレモニー", "本気祭のはじまり"],
+      ["11:15", "12:10", "鈴木地域よさこい", "鈴木小学校・第五小学校"],
+      ["12:10", "13:10", "鈴木トーク", "鈴木遺跡・全国の鈴木・秋田の鈴木 ほか"],
+      ["13:40", "14:05", "キラキラ人形劇団", "鈴木の赤ずきん"],
+      ["14:10", "14:40", "みんなで踊ろう輪踊りセッション", "鈴木音頭・東京イノベーション音頭"],
+      ["15:00", "15:30", "鈴木トーク", "関東藤白鈴木会・戦国魂 鈴木智博さん"],
+      ["16:00", "16:45", "鈴木ばやし 練り歩き", "会場をめぐる鈴木ばやし"],
+      ["16:45", "17:00", "クロージングセレモニー", "鈴木祭のしめくくり"]
+    ]
+  };
+
+  // 持ち場：slots は [時間, 人, 内容]。人が空なら「シフト表に記載なし」
+  var POSTS = [
+    {
+      name: "本部1（駅方面入口）＆出店窓口", leader: "関谷さん（サブ：山浦さん）", size: "3名",
+      roles: ["来場者の一次案内、パンフ配布", "横断幕・案内看板まわりの安全確認", "出店者の受け入れ・連絡窓口", "クイズラリー対応", "白狐・白蛇・鈴木にちなんだ仮装の人に鈴木グッズ（くじ）を進呈"],
+      d1: [["14:00–16:00", "せきや、おおいしまや、出口家（大人）", "出店者の搬入誘導・本部設営"], ["16:00–18:30", "せきや、おおいしまや、出口家（大人）", "出店者窓口・受付案内"], ["18:30–20:30", "（せきや）、やまうら、出口家（大人）", "本部・クイズラリー対応（交代で休憩）"], ["20:30–22:00", "（せきや）、やまうら、出口家（大人）", "本部片付け・出店者確認"]],
+      d2: [["08:00–11:00", "せきや、しぶや", "出店者受け入れ・本部資材の配置"], ["11:00–14:00", "せきや、（やまうら）、しぶや、（おおいしまや：前半△／後半○）", "出店者窓口・クイズラリー・案内窓口。交代で1名ずつ休憩・出店者巡回"], ["14:00–17:00", "", ""], ["17:00–19:00", "せきや、（やまうら）、しぶや", "本部解体・アンケート回収・清掃"]],
+      notes: ["シフト表の本部欄に「はやしさん（はやしさん紹介者）」の記載あり。11/1 11:00–14:00に来てくれるボランティア3名（林ひよこさん紹介）の配置先と思われます", "希望人数は3名ですが、打ち合わせでは「2人では無理、5人くらいほしい」という話が出ています"]
+    },
+    {
+      name: "VIPカウンター（受付・BAR）", leader: "北村さん、吉野さん", size: "3名",
+      roles: ["VIP協賛者の受付（バッジ確認）", "当日協賛の受付（VIPバッジ）", "VIPラウンジの飲食補助・おもてなし", "鈴木の会ブースの補助、全体統括への連絡"],
+      d1: [["14:00–16:00", "北村、吉野", "BARカウンター設営"], ["16:00–18:30", "北村、吉野", "常時2〜3名で稼働。交代で1名ずつ休憩・食事・買い出し"], ["18:30–20:30", "", ""], ["20:30–22:00", "北村、吉野", "カウンター片付け・酒類の施錠"]],
+      d2: [["08:00–11:00", "吉野、ツルタ、まきこ（北村は後から合流）", "BAR仕込み・席のセット"], ["11:00–14:00", "北村、吉野、（ツルタ）、まきこ", "常時3名（BARマスター・提供・迎賓）。交代で1名ずつ昼食・休憩・買い出し"], ["14:00–17:00", "", ""], ["17:00–19:00", "北村、ツルタ、まきこ", "BAR解体・備品の仕分け"]],
+      notes: ["VIP返礼品は手ぬぐい・ポストカード・キーホルダーが基本セット。協賛口数に応じて鈴木くじ（中身は最終確認中）"]
+    },
+    {
+      name: "VIPラウンジ", leader: "まきこさん（立ち回り：ツルタさん）", size: "2名",
+      roles: ["来賓席（鈴木さんの会・関東藤白鈴木会ほか）のおもてなし", "来賓のアテンド（ツルタさん）", "VIP特別サービス（おつかい・ハンドケア・記念撮影・円満祈願）はまきこさんのみ対応"],
+      d1: [["14:00–22:00", "リーダー：まきこ／立ち回り：ツルタ", "全時間帯"]],
+      d2: [["08:00–19:00", "リーダー：まきこ／立ち回り：ツルタ", "全時間帯"]],
+      notes: ["市長は10/31に来場予定。関東藤白鈴木会は11/1に来場予定"]
+    },
+    {
+      name: "ステージ＆PA", leader: "ゆーたさん、ゆーごさん", size: "2名",
+      roles: ["出演者のアテンド（南中の控室⇔舞台）", "機材・マイクの管理、転換の補助"],
+      d1: [["14:00–16:00", "鈴木ゆうた、鈴木ゆうご", "北山家の機材設営・PA設置"], ["16:00–18:30", "鈴木ゆうた、鈴木ゆうご", "PA・進行（17:40 音頭）"], ["18:30–20:30", "鈴木ゆうた、鈴木ゆうご", "PA・蓄音機・音頭"], ["20:30–22:00", "鈴木ゆうた、鈴木ゆうご", "精密機材の撤収・養生・施錠"]],
+      d2: [["08:00–11:00", "鈴木ゆうた、鈴木ゆうご", "劇団の機材と連携・音響設営"], ["11:00–14:00", "鈴木ゆうた、鈴木ゆうご", "よさこい音源・PA・演者誘導"], ["14:00–17:00", "鈴木ゆうた、鈴木ゆうご", "鈴木ばやし・フィナーレのPA"], ["17:00–19:00", "鈴木ゆうた、鈴木ゆうご", "音響機材の完全撤収・トラック積み込み"]],
+      notes: ["音響機材は10/31が北山さん、11/1がキラキラ人形劇団", "ステージ前に子ども用のブルーシートを敷くかも"]
+    },
+    {
+      name: "鈴木くじ＆スズキーランド", leader: "磯田さん、おおいしさん", size: "3名",
+      roles: ["鈴木くじの受付・抽選・景品渡し（1回500円、目標1,000回。小鈴木・中鈴木・大鈴木・超鈴木）", "仮装した人へのくじ無料対応", "クイズラリー・ダーツの補助"],
+      d1: [["14:00–16:00", "いそだ、つなかわ、出口家（中2・小5）", "ブース設営・景品並べ"], ["16:00–18:30", "いそだ、つなかわ、出口家（中2・小5）", "くじ引き・景品渡し（合間に磯田さんが写真撮影）"], ["18:30–20:30", "", ""], ["20:30–22:00", "つなかわ、（出口家：中2・小5）", "景品の保管・片付け（磯田さんは休み）"]],
+      d2: [["08:00–11:00", "いそだ、（つなかわ）", "景品棚の設営・くじ準備"], ["11:00–14:00", "いそだ、（つなかわ）、（北村さんの娘さん：スポット参加）", "くじ引き・景品渡し（交代で昼食・撮影）"], ["14:00–17:00", "", ""], ["17:00–19:00", "いそだ、（つなかわ）", "景品まとめ・テントと机の解体"]],
+      notes: ["仮装の人が何度も来た場合の扱いは未定"]
+    },
+    {
+      name: "南中通用口・駐輪・場内巡回・安全管理", leader: "ふかわさん", size: "3名",
+      roles: ["南中学校への立ち入り制限（禁酒・禁煙の徹底）", "トイレを使いたい人の案内・引率（通用口で対応）", "自転車で来た人を駅前の駐輪場へ案内、カラーコーンの巡回", "（11/1）マーケット・キッチンカー周辺の巡回、ゴミ箱の定期回収・分別"],
+      d1: [["14:00–16:00", "やまP、府川、林", "コーン配置・動線確保・安全管理"], ["16:00–18:30", "やまP、府川、林", "学校通り・通用門の安全誘導・駐輪整理"], ["18:30–20:30", "やまP、府川、北山剛、林", "通用門の安全誘導・駐輪整理・巡回（北山さんは18:30合流）"], ["20:30–22:00", "やまP、府川、北山剛、（林）", "夜間施錠・コーン点検・外周の最終確認"]],
+      d2: [["08:00–11:00", "（やまP）、府川、（林）", "南中通用門の解錠・コーン配置・動線整備"], ["11:00–14:00", "やまP、府川、（林）", "南中の駐輪誘導・場内美化・安全巡回（交代制）"], ["14:00–17:00", "林慎太郎・林ひよこ（夫婦ボランティア）、やまP、府川", "林夫婦：花南中体育館周辺の駐輪チェック、路上喫煙の見回り。やまP・府川：林夫婦と連携・安全統括"], ["17:00–19:00", "やまP、府川、北山剛", "南中の施錠確認・安全管理・ゴミ集積所のまとめ"], ["よさこい中", "ふかわさんチームから1名", "自転車対応。よさこい参加者のみ駐輪可、その管理"]],
+      notes: ["自転車は1台止められると次々止められるので、1台も止めさせない", "南中の正門・裏入り口に「祭り関係者・参加者は学校内に入れません」、境目に「ここから先は祭り会場ではありません」の掲示", "南中では同日にサッカー・バスケの大会（6校）。グラウンドのフェンス沿いでの見学は禁止なので、公園の端より先に行かないようアナウンスする（注意まではしない）"]
+    },
+    {
+      name: "全体統括・本部運営", leader: "出口さん", size: "1名",
+      roles: ["全体指揮・進行管理・来賓アテンド", "各ブースの連携・本部窓口", "緊急時のトラブル対応・判断"],
+      d1: [["14:00–16:00", "出口", "全体指揮・設営統括・来賓連絡"], ["16:00–18:30", "出口", "全体指揮・来賓対応・各ブースの巡回見守り"], ["18:30–20:30", "", ""], ["20:30–22:00", "出口", "夜間の引き継ぎ・全体の施錠確認"]],
+      d2: [["08:00–11:00", "出口", "全体朝礼・出店受け入れの指揮・全体統括"], ["11:00–14:00", "出口", "全体指揮・来賓アテンド・トラブル即応"], ["14:00–17:00", "", ""], ["17:00–19:00", "出口", "撤収の進行指揮・原状回復の確認"]],
+      notes: ["当日はLINEの確認で忙しく、ほぼ持ち場にいない想定。現場の相談はまず本部の関谷さんへ"]
+    },
+    {
+      name: "運営道具・機材の搬入搬出", leader: "吉野さん、ふかわさん、出口さん", size: "3名",
+      roles: ["本部・ステージ音響・各ブースの運営備品の車両搬入・搬出（出店者の荷物以外）", "運搬時の安全確保・積み下ろし管理"],
+      d1: [["10:00–11:45", "（シフト表は空欄。LINEの動き想定あり）", "BASES出発→公園荷下ろし→細谷さん宅で机・椅子積み込み→公園荷下ろし"], ["14:00–16:00", "出口、府川、吉野", "ハイエース搬入作業・車両誘導・大型機材の荷下ろし"], ["16:00–20:30", "（日中は各持ち場で対応）", ""], ["20:30–22:00", "出口、府川、吉野", "残置資材の安全確認・車両と機材の保管チェック"]],
+      d2: [["08:00–11:00", "出口、府川、吉野", "ハイエース受け入れ・車両管理・機材搬入"], ["11:00–17:00", "（日中は各持ち場で対応）", ""], ["17:00–19:00", "出口、府川、吉野", "ハイエース搬出・積み込み"]],
+      notes: ["車：ハイエース（長物・什器）、出口カー（テント類）、ふかわカー（その他）", "細谷さん宅の机・椅子：借り10/31 11:00（4人）、返し11/1 18:30（4人）", "駐車場はないので、車は近くのコインパーキングへ"]
+    },
+    {
+      name: "会計・出展料回収", leader: "出口さん、関谷さん", size: "1名＋1名",
+      roles: ["売上金の定期回収・釣銭の両替巡回", "各ブースの金銭管理・中締め集計", "出展料の回収・領収書（関谷さん、両日とも全時間）", "協賛者リスト・領収書の準備（関谷さん）"],
+      d1: [["14:00–16:00", "出口", "各ブースへの釣銭配備・会計準備"], ["16:00–18:30", "出口", "定期売上回収・釣銭両替巡回"], ["20:30–22:00", "出口", "売上金の精算・金庫保管"], ["終日", "せきや", "出展料回収・領収書"]],
+      d2: [["08:00–11:00", "出口", "各ブースへの釣銭配備・会計準備"], ["11:00–14:00", "出口", "定期売上回収・釣銭両替巡回"], ["17:00–19:00", "出口", "売上金の最終精算・金庫保管"], ["終日", "せきや", "出展料回収・領収書"]],
+      notes: []
+    },
+    {
+      name: "全体作業（設営・撤収）", leader: "出口さん、関谷さん", size: "全員",
+      roles: ["テント組み立て、机・椅子の配置、横断幕の設置、配線、清掃"],
+      d1: [["14:00集合", "当日参加者全員", "テント・机・椅子・横断幕・配線の設営"], ["20:30〜", "当日参加者全員", "備品の片付け・夜間に残す物の養生・ゴミ回収"]],
+      d2: [["08:30集合", "当日参加者全員", "テント・机・椅子・看板の設置・朝礼"], ["17:00〜", "当日参加者全員", "全テント解体・公園清掃・原状回復"]],
+      notes: []
+    }
+  ];
+
+  var RULES = [
+    { name: "トイレはどこ？", body: ["公園内にトイレはありません。聞かれたら<b>南中学校のトイレ</b>を案内します。通用口で南中チームが対応します。", "お酒を飲んでいる人は入れません（学校側の条件）。その場合は花小金井駅の公衆トイレを案内します。", "校内は土足厳禁です。", "南中のトイレは口頭で案内し、掲示や配布物では案内しないでください（写真などに残る形はNG）。"] },
+    { name: "自転車はどこに止める？", body: ["会場に駐輪場はありません。<b>花小金井駅周辺の駐輪場</b>を案内します（ラミネートの案内とカラーコーンあり）。", "1台止められると次々止められるので、1台も止めさせないようにしてください。", "例外：11/1のよさこい出演者（南中体育館の臨時駐輪）。"] },
+    { name: "車で来ていい？", body: ["駐車場はありません。公共交通機関と徒歩での来場をお願いしています。"] },
+    { name: "ゴミはどこに捨てる？", body: ["購入したお店に返すか、持ち帰りをお願いしています（チラシの案内）。"] },
+    { name: "南中学校に入っていい？", body: ["祭りの関係者も来場者も、学校内には入れません（トイレ利用を除く）。お酒を飲んだ人は施設に入れないのが学校側の条件です。", "同日に南中でサッカー・バスケの大会があります。グラウンドのフェンス沿いでの見学は禁止なので、公園の端より先に行かないよう声をかけてください。"] },
+    { name: "たばこを吸っていい？", body: ["路上喫煙は見回りの対象です。南中の周辺は禁酒・禁煙です。"] },
+    { name: "けが人・体調不良が出たら", body: ["救護室はありません。佐藤（まきこ）さんに連絡し、必要なら救急車を呼びます。", "AEDの場所はまだ確認中です（要確認タブ）。"] },
+    { name: "雨が降ったら？", body: ["雨天開催・荒天中止です。中止の場合はSNSでお知らせします。"] },
+    { name: "仮装してきた人がいたら", body: ["白狐・白蛇・鈴木にちなんだ仮装やコスプレの人には、本部で鈴木グッズ（鈴木くじ）を進呈します。本部まで案内してください。"] },
+    { name: "「鈴木です」と言われたら", body: ["鈴木さんと自己申告してくれた人には、ドリンクチケットがあります。ぜひ「ようこそ、鈴木さん！」と迎えてください。"] },
+    { name: "公園の北側の細い道", body: ["私道なので使いません。来場者が入らないよう気をつけてください。"] },
+    { name: "取材を申し込まれたら", body: ["その場で対応せず、出口さん（または松岡さん）につないでください。"] }
+  ];
+
+  var BOOTHS = [
+    { name: "鈴木くじ", tag: "500円", body: ["開くと小鈴木・中鈴木・大鈴木・超鈴木。鈴木グッズがどんどん当たります。目標は1,000回。"] },
+    { name: "1日鈴木さん体験", tag: "500円・30名限定", body: ["どなたでも今日は「鈴木さん」。セット内容：鈴木の名札（首から下げる「今日は鈴木です。」）、鈴木姓名判断、ドリンクチケット1枚、ミニバッジ1つかポストカード1枚、鈴木サプライズ（全体アナウンス）があるかも。", "鈴木さん芳名帳に名前を書いてもらいます。"] },
+    { name: "鈴木姓名判断", tag: "QRコード", body: ["もしも鈴木さんだったら？の姓名判断・本名との対決・今日のラッキー・鈴木最強運ランキング。会場のQRコードから開きます。", "https://suzuki-matsuri-seimeihandan.netlify.app/v2.html"] },
+    { name: "鈴木クイズラリー", tag: "景品つき", body: ["景品は鈴木くじ1回＋ドリンクチケット。台紙は2025年版を使用。各クイズの場所に回答用のペンをぶら下げます。受付・対応は本部。"] },
+    { name: "ニッポン鈴木濃度ダーツ", tag: "", body: ["鈴木さんの人口密度を題材にしたダーツ（P.M.Schoolさん）。"] },
+    { name: "記念フォトブース", tag: "", body: [] },
+    { name: "鈴木遺跡・鈴木ばやし紹介", tag: "", body: ["鈴木の歴史展示（磯田さん作成）、タペストリー（鈴木町・鈴木ばやし・鈴木遺跡）。国史跡・鈴木遺跡は10/28にNHK「歴史探偵」で紹介されました。"] },
+    { name: "VIPバッジ・当日協賛", tag: "5,000円", body: ["VIPバッジでVIPラウンジを利用できます。当日の協賛はVIPカウンターで受け付けます。協賛は一口5,000円から。"] }
+  ];
+
+  var SHOPS = [
+    ["スペシャル", "“鈴木”のふるさと 和歌山県海南市／“佐藤”のふるさと 栃木県佐野市（10/31のみ）"],
+    ["フード", "菓子工房なつの、クロスケ酒場、Tacos Mercado、ダルマ、Ciao em Cafe、BonBon屋、まかろんるい、マルズチーズケーキ、63、遊牧亭＆菓子と珈琲時の音こ、和田輪業"],
+    ["キッチンカー", "Kodaira Pawpaw Beer、たこまさ、月亮亭"],
+    ["物販", "ken's planning、駄菓子屋おーさん、ハンドレタリング（名前をアートにしてくれる）"],
+    ["ワークショップ", "さくら扇子、wakkas"],
+    ["10/31のみ", "KIRAKUS、タケシ観光、ようびや"],
+    ["11/1のみ", "ココパレ、Cafe&Deli hug、日用品とおかしのお店 sofar、PAL、roko.motion、ハミダスアトリエ、夢を叶える香り作り♪、Kaba_Bingo、みなみのペイント屋さん、ハンドメイド「日々。」、flower natural food cafe"]
+  ];
+
+  var TODO = [
+    ["本部の人数", "シフト表の希望は3名、打ち合わせでは「5人くらいほしい」。11/1のボランティア3名を本部に入れるかどうか", "関谷さん・ふかわさん"],
+    ["空欄の時間帯", "10/31 18:30–20:30と11/1 14:00–17:00が、VIPカウンター・鈴木くじ・全体統括でシフト表上空欄（前の時間帯から継続かどうか）", "各リーダー"],
+    ["シフト表の「はやしさん（はやしさん紹介者）」", "本部欄の全時間帯に記載あり。ボランティアが来られるのは11/1 11:00–14:00のみ", "ふかわさん"],
+    ["10/31の運搬（10:00–11:45）の担当", "LINEで動きの想定はあるが、シフト表は空欄。細谷さん宅の積み込みは4人必要", "出口さん"],
+    ["ボランティアの集合場所と受付", "当日到着したら誰に声をかけ、法被・腕章をどこで受け取るか", "関谷さん"],
+    ["VIPバッジの色", "打ち合わせメモは「VVIP黒・VIP赤」、LINEでは「紫50・黒50」", "出口さん・磯田さん"],
+    ["VIP返礼品の中身", "手ぬぐい・ポストカード・キーホルダーが基本。協賛口数に応じたくじの扱い", "出口さん"],
+    ["ゴミの扱い", "チラシは「購入店へ返却か持ち帰り」、11/1のシフトには「ゴミ箱の定期回収・分別」とある", "ふかわさん"],
+    ["よさこいの駐輪", "タスク表に「南中体育館に約70台・10:15–10:45」と「鈴木小だけ駐輪する」の両方の記載あり", "ふかわさん・ゆうごさん"],
+    ["AEDの場所", "まだ確認できていない", "佐藤（まきこ）さん"],
+    ["仮装者が複数回来た場合", "鈴木くじを何回まで渡すか", "磯田さん・関谷さん"],
+    ["鈴木団子", "来場者に販売するかどうか", "未定"],
+    ["1日鈴木さん体験の販売場所と担当", "どのブースで誰が売るか", "未定"]
+  ];
+
+  // ================================================================
+  // ここから下はプログラム（通常は触らない）
+  // ================================================================
+
+  // ---------- 名前の検索（ひらがな・漢字の両対応） ----------
+  var ALIASES = [
+    ["せきや", "関谷"], ["やまうら", "山浦", "まゆみ"], ["ふかわ", "府川"], ["よしの", "吉野"], ["きたむら", "北村", "なおひろ"],
+    ["いそだ", "磯田"], ["おおいし", "大石"], ["つなかわ", "綱川"], ["でぐち", "出口"], ["まきこ", "佐藤"], ["つるた", "ツルタ", "鶴田"],
+    ["ゆうた", "ゆーた"], ["ゆうご", "ゆーご"], ["やまp", "山田", "東山田", "やまだ"], ["きたやま", "北山"], ["はやし", "林"], ["しぶや", "渋谷", "shibu"]
+  ];
+  function kana(s) { return String(s).toLowerCase().replace(/[ァ-ヶ]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0x60); }); }
+  function terms(q) {
+    q = kana(q.trim());
+    if (!q) return [];
+    var out = [q];
+    ALIASES.forEach(function (g) {
+      var gk = g.map(kana);
+      if (gk.some(function (a) { return a.indexOf(q) === 0 || q.indexOf(a) === 0; })) gk.forEach(function (a) { if (out.indexOf(a) < 0) out.push(a); });
+    });
+    return out;
+  }
+
+  // ---------- 描画 ----------
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function hl(text, ts) {
+    var safe = esc(text);
+    if (!ts.length) return safe;
+    // かなを揃えた文字列で位置を探し、元の文字列に印を付ける
+    var k = kana(text), marks = [];
+    ts.forEach(function (t) { var i = k.indexOf(t); while (i >= 0) { marks.push([i, i + t.length]); i = k.indexOf(t, i + 1); } });
+    if (!marks.length) return safe;
+    marks.sort(function (a, b) { return a[0] - b[0]; });
+    var out = "", pos = 0;
+    marks.forEach(function (m) { if (m[0] < pos) return; out += esc(text.slice(pos, m[0])) + "<mark>" + esc(text.slice(m[0], m[1])) + "</mark>"; pos = m[1]; });
+    return out + esc(text.slice(pos));
+  }
+
+  var state = { tlDay: "d1", postDay: "d1", q: "" };
+
+  function jstNow() { return new Date(Date.now() + 9 * 3600 * 1000); }
+  function todayKey() { var d = jstNow().toISOString().slice(0, 10); return d === "2026-11-01" ? "d2" : d === "2026-10-30" ? "pre" : "d1"; }
+  function nowMin() { var d = jstNow(); return d.getUTCHours() * 60 + d.getUTCMinutes(); }
+  function toMin(s) { var m = /^(\d{1,2}):(\d{2})/.exec(s); return m ? (+m[1]) * 60 + (+m[2]) : null; }
+
+  function renderTimeline() {
+    var day = state.tlDay;
+    var isToday = todayKey() === day && jstNow().toISOString().slice(0, 10) >= "2026-10-30";
+    var nm = nowMin();
+    var ops = OPS[day].map(function (r, i, arr) {
+      var s = toMin(r[0]), next = arr[i + 1] ? toMin(arr[i + 1][0]) : s + 60;
+      var now = isToday && s !== null && nm >= s && nm < next;
+      return '<li class="' + (now ? "now" : "") + '"><time>' + esc(r[0]) + '</time><div class="what">' + esc(r[1]) + (r[2] ? '<div class="who">' + esc(r[2]) + "</div>" : "") + "</div></li>";
+    }).join("");
+    document.getElementById("tl-ops").innerHTML = "<h3>" + DAY_LABEL[day] + "：運営の流れ</h3><ol class=\"tl\">" + ops + "</ol>";
+    var st = document.getElementById("tl-stage");
+    if (!STAGE[day]) { st.hidden = true; return; }
+    st.hidden = false;
+    var items = STAGE[day].map(function (r) {
+      var now = isToday && nm >= toMin(r[0]) && nm < toMin(r[1]);
+      return '<li class="' + (now ? "now" : "") + '"><time>' + r[0] + "–" + r[1] + '</time><div class="what"><b>' + esc(r[2]) + '</b><div class="who">' + esc(r[3]) + "</div></div></li>";
+    }).join("");
+    st.innerHTML = "<h3>SUZUKI FUJI ステージ</h3><ol class=\"tl\">" + items + "</ol><p class=\"lead\">※プログラムは変更になる場合があります（公式Instagramの発表どおり）</p>";
+  }
+
+  function renderPosts() {
+    var ts = terms(state.q), day = state.postDay, hits = 0;
+    var html = POSTS.map(function (p, idx) {
+      var slots = p[day] || [];
+      var text = kana([p.name, p.leader].concat(slots.map(function (s) { return s[1]; })).join(" "));
+      var match = !ts.length || ts.some(function (t) { return text.indexOf(t) >= 0; });
+      if (match) hits++;
+      var sl = slots.map(function (s) {
+        return '<li class="' + (s[1] ? "" : "empty") + '"><span class="t">' + esc(s[0]) + '</span><div><div class="p">' + (s[1] ? hl(s[1], ts) : "シフト表に記載なし") + "</div>" + (s[2] ? '<div class="d">' + esc(s[2]) + "</div>" : "") + "</div></li>";
+      }).join("");
+      return '<details class="post' + (match ? "" : " hide") + '"' + (ts.length && match ? " open" : "") + ' id="post-' + idx + '"><summary><div class="row"><h3>' + esc(p.name) + '</h3><span class="chev"></span></div><div class="leader">リーダー：' + hl(p.leader, ts) + '　<span class="tag">' + esc(p.size) + "</span></div></summary>" +
+        '<div class="body"><div><b>主な役割</b><ul class="list">' + p.roles.map(function (r) { return "<li>" + esc(r) + "</li>"; }).join("") + "</ul></div>" +
+        "<div><b>" + DAY_LABEL[day] + '</b><ul class="slots">' + sl + "</ul></div>" +
+        (p.notes.length ? '<div class="note">' + p.notes.map(esc).join("<br>") + "</div>" : "") + "</div></details>";
+    }).join("");
+    document.getElementById("post-list").innerHTML = html;
+    document.getElementById("no-hit").hidden = hits > 0;
+  }
+
+  function renderStatic() {
+    document.getElementById("rule-list").innerHTML = RULES.map(function (r) {
+      return '<details class="post"><summary><div class="row"><h3>' + esc(r.name) + '</h3><span class="chev"></span></div></summary><div class="body">' + r.body.map(function (b) { return "<p>" + b + "</p>"; }).join("") + "</div></details>";
+    }).join("");
+    document.getElementById("booth-list").innerHTML = BOOTHS.map(function (b) {
+      return '<details class="post"><summary><div class="row"><h3>' + esc(b.name) + "</h3>" + (b.tag ? '<span class="tag navy">' + esc(b.tag) + "</span>" : "") + '</div></summary><div class="body">' + (b.body.length ? b.body.map(function (x) { return "<p style=\"overflow-wrap:anywhere\">" + esc(x) + "</p>"; }).join("") : '<p class="lead">詳細は当日現地で確認してください。</p>') + "</div></details>";
+    }).join("");
+    document.getElementById("shops").innerHTML = "<h3>出店者（公式マップより）</h3><dl class=\"kv\">" + SHOPS.map(function (s) { return "<dt>" + esc(s[0]) + "</dt><dd>" + esc(s[1]) + "</dd>"; }).join("") + "</dl><p class=\"lead\">出店者・ステージの内容は追加・変更・中止になる場合があります。</p>";
+    document.getElementById("todo-list").innerHTML = TODO.map(function (t) {
+      return '<li><span class="tag warn">要確認</span><div><b>' + esc(t[0]) + "</b><p>" + esc(t[1]) + '</p><div class="who">確認先：' + esc(t[2]) + "</div></div></li>";
+    }).join("");
+  }
+
+  function setPressed(sel, val) {
+    document.querySelectorAll(sel + " .daybar button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.day === val)); });
+  }
+
+  // ---------- 画面切り替え ----------
+  var VIEWS = ["intro", "timeline", "posts", "rules", "booths", "open"];
+  function show() {
+    var v = location.hash.replace("#", "");
+    if (VIEWS.indexOf(v) < 0) v = "intro";
+    document.querySelectorAll("[data-view]").forEach(function (el) { el.hidden = el.dataset.view !== v; });
+    document.querySelectorAll("nav.tabs a").forEach(function (a) { if (a.getAttribute("href") === "#" + v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  }
+
+  // ---------- 初期化 ----------
+  var tk = todayKey();
+  state.tlDay = tk;
+  state.postDay = tk === "d2" ? "d2" : "d1";
+  try { var saved = localStorage.getItem("suzuki-ops-q"); if (saved) state.q = saved; } catch (e) {}
+  document.getElementById("q").value = state.q;
+
+  document.querySelectorAll("#v-timeline .daybar button").forEach(function (b) {
+    b.addEventListener("click", function () { state.tlDay = b.dataset.day; setPressed("#v-timeline", state.tlDay); renderTimeline(); });
+  });
+  document.querySelectorAll("#v-posts .daybar button").forEach(function (b) {
+    b.addEventListener("click", function () { state.postDay = b.dataset.day; setPressed("#v-posts", state.postDay); renderPosts(); });
+  });
+  document.getElementById("q").addEventListener("input", function (e) {
+    state.q = e.target.value;
+    try { localStorage.setItem("suzuki-ops-q", state.q); } catch (err) {}
+    renderPosts();
+  });
+  window.addEventListener("hashchange", show);
+
+  setPressed("#v-timeline", state.tlDay);
+  setPressed("#v-posts", state.postDay);
+  renderStatic(); renderTimeline(); renderPosts(); show();
+  setInterval(renderTimeline, 60000);
+})();
+</script>
+</body>
+</html>
